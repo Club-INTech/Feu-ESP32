@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+	<div class="row">
+		<div class="left btn-group">
+			<button class="button red" id="r-butt"></button>
+			<button class="button yellow" id="y-butt"></button>
+			<button class="button green" id="g-butt"></button>
+		</div>
+		<div class="right">
+
+			Speed of effects:
+			<br>
+			<input type="range" min="1" max="100" value="50" class="slider" id="time-range">
+			<button class="button" id="rst-butt">Reset slider</button>
+			<br>
+			<input type="checkbox" id="manual" name="manual"> Manual mode
+			<br>
+			Mode:
+			<select name="mode" id="mode-sel" onchange="modeUpd(this.value)">%MODES%</select>
+		</div>
+	</div>
+</body>
+
+<script type="text/javascript">
+	var slider = document.getElementById("time-range");
+	var manMode = document.getElementById("manual");
+
+	var rButt = document.getElementById("r-butt");
+	var yButt = document.getElementById("y-butt");
+	var gButt = document.getElementById("g-butt");
+	var resetButt = document.getElementById("rst-butt");
+
+	var lightState = 0;
+
+	function buttUpd() {
+		fetch(`${window.location.href}set?light=${lightState}`,{
+			method:"GET",
+		});
+	}
+
+	function modeUpd(mode) {
+		fetch(`${window.location.href}set?mode=${mode}`,{
+			method:"GET",
+		});
+	}
+
+	resetButt.onclick = function() {slider.value = 50;slider.oninput();}
+
+	rButt.onclick = function() {lightState ^= 1;buttUpd();};
+	yButt.onclick = function() {lightState ^= 1<<1;buttUpd();};
+	gButt.onclick = function() {lightState ^= 1<<2;buttUpd();};
+
+	slider.oninput = function() {
+		var value = 1/(2*(this.value/100));
+		fetch(`${window.location.href}set?timescale=${value}`,{
+			method:"GET",
+		});
+	}
+	manMode.oninput = function() {
+		var value = this.checked ? 0 : 1;
+		fetch(`${window.location.href}set?enable=${value}`,{
+			method:"GET",
+		});
+	}
+</script>
+
+</html>

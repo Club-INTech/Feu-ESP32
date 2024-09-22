@@ -1,0 +1,39 @@
+body {
+  background-color:#000000;
+  color:#FFFFFF;
+  line-height: 30px;
+}
+
+.row {
+  display: flex;
+}
+
+.left {
+  flex: 10%;
+}
+
+.right {
+  flex: 90%;
+}
+
+.btn-group button {
+  padding: 0; /* Some padding */
+  cursor: pointer; /* Pointer/hand icon */
+  width: 100px;
+  height: 100px;
+  display: block;
+  border-radius: 50%;
+  border: none;
+}
+
+.red {
+  background-color: #FF0000;
+}
+
+.yellow {
+  background-color: #FFFF00;
+}
+
+.green {
+  background-color: #00FF00;
+}
