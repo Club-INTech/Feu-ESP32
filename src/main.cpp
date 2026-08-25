@@ -2,7 +2,7 @@
 #include <WiFi.h>
 #include <AsyncTCP.h>
 #include <ESPAsyncWebServer.h>
-#include <SPIFFS.h>
+#include <LittleFS.h>
 #include <ArduinoOTA.h>
 
 #include <light.hpp>
@@ -39,11 +39,10 @@ void initOTA() {
 			String type;
 			if (ArduinoOTA.getCommand() == U_FLASH) {
 				type = "sketch";
-			} else {  // U_SPIFFS
+			} else {
 				type = "filesystem";
 			}
 
-			// NOTE: if updating SPIFFS this would be the place to unmount SPIFFS using SPIFFS.end()
 			Serial.println("Start updating " + type);
 		})
 		.onEnd([]() {
@@ -76,7 +75,7 @@ String indexProcessor(const String& var){
 	if (var == "MODES") {
 		String list = String();
 		std::map<int, Behaviour*> *map = Behaviour::getBehavMap();
-		
+
 		for (std::map<int, Behaviour*>::iterator it = map->begin(); it != map->end(); it++)
 			list += "<option value=\"" + String(it->first) + "\">" + it->second->name() + "</option>";
 
@@ -88,17 +87,17 @@ String indexProcessor(const String& var){
 void initWeb() {
 	Serial.println("Init Web");
 
-	if (!SPIFFS.begin(true)) {
-		Serial.println("An Error has occurred while mounting SPIFFS");
+	if (!LittleFS.begin(true)) {
+		Serial.println("An Error has occurred while mounting LittleFS");
 		return;
 	}
 
 	server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
-		request->send(SPIFFS, "/index.html", String(), false, indexProcessor);
+		request->send(LittleFS, "/index.html", String(), false, indexProcessor);
 	});
 
 	server.on("/style.css", HTTP_GET, [](AsyncWebServerRequest *request){
-		request->send(SPIFFS, "/style.css", "text/css");
+		request->send(LittleFS, "/style.css", "text/css");
 	});
 
 	server.on("/set", HTTP_GET, [] (AsyncWebServerRequest *request) {

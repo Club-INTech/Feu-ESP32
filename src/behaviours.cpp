@@ -10,3 +10,4 @@ int Clem3Behaviour::id = Behaviour::registerBehav(new Clem3Behaviour());
 int Clem4Behaviour::id = Behaviour::registerBehav(new Clem4Behaviour());
 int Clem5Behaviour::id = Behaviour::registerBehav(new Clem5Behaviour());
 int Vincent1Behaviour::id = Behaviour::registerBehav(new Vincent1Behaviour());
+int MatthiasMusicBehaviour::id = Behaviour::registerBehav(new MatthiasMusicBehaviour());
