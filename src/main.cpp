@@ -72,15 +72,15 @@ void initOTA() {
 }
 
 String indexProcessor(const String& var){
-	if (var == "MODES") {
+	//if (var == "MODES") {
 		String list = String();
 		std::map<int, Behaviour*> *map = Behaviour::getBehavMap();
 
 		for (std::map<int, Behaviour*>::iterator it = map->begin(); it != map->end(); it++)
 			list += "<option value=\"" + String(it->first) + "\">" + it->second->name() + "</option>";
-
+                Serial.println(list);
 		return list;
-	}
+	//}
 	return String();
 }
 

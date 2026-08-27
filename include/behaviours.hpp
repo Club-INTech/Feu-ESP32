@@ -427,3 +427,24 @@ public:
 
 	static int id;
 };
+
+class KOMBehaviour : public Behaviour {
+  static constexpr uint8_t ANALOG_SOUND_PIN {36};
+  uint16_t max;
+  
+  String name() {
+    return "KOM";
+  }
+  
+  void run() {
+    uint16_t sound = analogRead(ANALOG_SOUND_PIN);
+    if (max < sound) max = sound;
+    Serial.println(max);
+  }
+  
+public:
+  KOMBehaviour() : max {0} {
+    pinMode(ANALOG_SOUND_PIN, OUTPUT);
+  }
+  static int id;
+};
